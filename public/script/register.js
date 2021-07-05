@@ -25,19 +25,11 @@ function getValueByKey(key) {
 // lors du click sur le bouton Submit 
 submit.addEventListener('click', event => {
     form = {
-        'firstname' : getValueByKey('firstname'),
-        'lastname' : getValueByKey('lastname'),
+        'username' : getValueByKey('username'),
         'email' : getValueByKey('email'),
-        'birth' : getValueByKey('birth'),
-        'phone' : getValueByKey('phone')
+        'password' : getValueByKey('password'),
     };
 
-    HTTP.post('/user', form, true, () => refresh());
+    HTTP.post('/register', form, true, () => refresh());
 })
 
-/** DELETE METHOD */
-
-// on récupère l'évènement du bouton Delete account
-const deleteBtn = document.querySelector("input#btnDelete");
-
-deleteBtn.addEventListener('click', () => HTTP.delete('/user', null, false, () => redirect('/')))
