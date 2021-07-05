@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Let Sign In{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container max-w-full mx-auto md:py-24 px-6">
+  <div class="max-w-sm mx-auto px-6">
+        <div class="relative flex flex-wrap">
+            <div class="w-full relative">
+                <div class="md:mt-6">
+                    <div class="text-center font-semibold text-black">
+                        Register Form
+                    </div>
+                    <div class="text-center font-base text-black">
+                        Come On For Go Buy Your Best Itmems
+                    </div>
+                    <form class="mt-8" x-data="{password: '',password_confirm: ''}">
+                        <div class="mx-auto max-w-lg ">
+                            <div class="py-1">
+                                <span class="px-1 text-sm text-gray-600">Username</span>
+                                <input placeholder="" type="text" class=" data text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+                            </div>
+                            <div class="py-1">
+                                <span class="px-1 text-sm text-gray-600">Email</span>
+                                <input placeholder="" type="email" class="data text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+                            </div>
+                            <div class="py-1">
+                                <span class="px-1 text-sm text-gray-600">Password</span>
+                                <input placeholder="" type="password" x-model="password" class="data text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+                            </div>
+                            <input type="button" id="btnSubmit" class="mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                Register
+                        </input> 
+                            <br>
+                            <a href="{{ path('app_login') }}" class="text-center mt-3 text-lg font-semibold bg-gray-300 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                Already Member ? Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
