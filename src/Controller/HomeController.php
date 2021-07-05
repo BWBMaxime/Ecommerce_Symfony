@@ -11,7 +11,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/home', name: 'home')]
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
          $products = $this->getDoctrine()->getRepository(Product::class)->findAll([],['created_at' => 'desc']);
