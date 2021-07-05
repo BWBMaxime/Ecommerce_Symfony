@@ -2,200 +2,120 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
- *
- * @ORM\Table(name="User", indexes={@ORM\Index(name="IDX_user_delivery", columns={"delivery"}), @ORM\Index(name="IDX_user_payment", columns={"payment"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="token", type="text", length=255, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $token;
+    private $username;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="text", length=255, nullable=false)
+     * @ORM\Column(type="json")
      */
-    private $email;
+    private $roles = [];
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="firstname", type="text", length=255, nullable=true)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $firstname;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="lastname", type="text", length=255, nullable=true)
-     */
-    private $lastname;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="birth", type="datetime", nullable=true)
-     */
-    private $birth;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="phone", type="string", length=12, nullable=true)
-     */
-    private $phone;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="picture", type="text", length=255, nullable=true)
-     */
-    private $picture;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="payment", type="integer", nullable=true)
-     */
-    private $payment;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="delivery", type="integer", nullable=true)
-     */
-    private $delivery;
+    private $password;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getToken(): ?string
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        return $this->token;
+        return (string) $this->username;
     }
 
-    public function setToken(string $token): self
+    public function setUsername(string $username): self
     {
-        $this->token = $token;
+        $this->username = $username;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->email;
+        return (string) $this->username;
     }
 
-    public function setEmail(string $email): self
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        $this->email = $email;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->firstname;
+        return $this->password;
     }
 
-    public function setFirstname(?string $firstname): self
+    public function setPassword(string $password): self
     {
-        $this->firstname = $firstname;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
     {
-        return $this->lastname;
+        return null;
     }
 
-    public function setLastname(?string $lastname): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->lastname = $lastname;
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
-
-    public function getBirth(): ?\DateTimeInterface
-    {
-        return $this->birth;
-    }
-
-    public function setBirth(?\DateTimeInterface $birth): self
-    {
-        $this->birth = $birth;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): self
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
-    public function getPayment(): ?int
-    {
-        return $this->payment;
-    }
-
-    public function setPayment(?int $payment): self
-    {
-        $this->payment = $payment;
-
-        return $this;
-    }
-
-    public function getDelivery(): ?int
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(?int $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
-
-
 }
